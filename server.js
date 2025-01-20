@@ -16,8 +16,6 @@ app.post('/submit',(req,res) =>{
 })
 
 
-console.log(monogdb_password)
-
 mongoose
 .connect(`mongodb+srv://wwwsainikhil720:${monogdb_password}@cluster0.wq9tu4g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
 .then(() =>{
