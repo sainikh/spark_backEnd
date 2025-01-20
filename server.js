@@ -4,6 +4,7 @@ const config = require('dotenv').config();
 const app = express();
 const port = process.env.PORT;
 const monogdb_password = process.env.MONGO_PASSWORD;
+const monogdb_user_name = process.env.MONGO_USER_NAME;
 
 
 app.get('/',(req,res) => {
@@ -17,7 +18,7 @@ app.post('/submit',(req,res) =>{
 
 
 mongoose
-.connect(`mongodb+srv://wwwsainikhil720:${monogdb_password}@cluster0.wq9tu4g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
+.connect(`mongodb+srv://${monogdb_user_name}:${monogdb_password}@cluster0.wq9tu4g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
 .then(() =>{
     console.log('Database connected');
     
