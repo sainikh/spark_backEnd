@@ -13,7 +13,7 @@ const login = async (req, res) => {
     };
 
     const access_token = jwt.sign(user, process.env.JWT_SECRET, {
-      expiresIn: "30s",
+      expiresIn: "5m",
     });
 
     const refresh_token = jwt.sign(user, process.env.JWT_SECRET, {
