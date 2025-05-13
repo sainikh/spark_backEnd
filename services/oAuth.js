@@ -1,30 +1,22 @@
+const User = require("../models/User");
 const dotenv = require("dotenv");
-
 dotenv.config();
-
-// const oauth2Client = new google.auth.OAuth2(
-//   CLIENT_ID,
-//   CLIENT_SECRET,
-//   REDIRECT_URI
-// );
-// oauth2Client.setCredentials({ access_token: ACCESS_TOKEN });
-// const oauth2 = google.oauth2({auth: oauth2Client, version: 'v2'});
-// const userinfo = await oauth2.userinfo.get();
-// console.log(userinfo.data.email);
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(CLIENT_ID);
 
 const verifyToken = async (tokenId) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: tokenId,
-      audience: process.env.WEB_CLIENT_ID,
+      audience: CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    // const email = payload.email;
+    const email = payload.email;
+    const name = payload.name;
+    const user = new User({ email, name });
 
-    // console.log("User email:", email);
-    console.log("userid :", payload);
-
-    return true;
+    return user;
   } catch (e) {
     console.error(e);
     return false;

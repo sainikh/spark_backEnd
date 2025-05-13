@@ -1,25 +1,26 @@
-const { registerUser, loginUser } = require("../services/userServices");
+const { loginUser } = require("../services/userServices");
+const jwtToken = require("../services/jwtTokenSerives");
+const oAuth = require("../services/oAuth");
 
-// Register a new user
-const register = async (req, res) => {
-  try {
-    const { email, userName } = req.body;
-    const user = await registerUser(email, userName);
-    res.status(201).json({ message: "User registered successfully", user });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
-// Login user
+// Register / Login user
 const login = async (req, res) => {
   try {
-    const { email, userName } = req.body;
-    const user = await loginUser(email, userName);
-    res.status(200).json({ message: "Login successful", user });
+    const { token } = req.body;
+    const auth = await oAuth.verifyToken(token);
+    if (!auth) {
+      res.status(200).json({ message: "Invalid Token" });
+    } else {
+      const user = await loginUser(auth.email, auth.name);
+      const clientToken = await jwtToken.generateToken(user);
+
+      res.status(200).json({
+        message: "Login successful",
+        token: clientToken,
+      });
+    }
   } catch (error) {
     res.status(401).json({ message: error.message });
   }
 };
 
-module.exports = { register, login };
+module.exports = { login };

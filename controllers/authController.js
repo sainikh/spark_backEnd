@@ -1,11 +1,12 @@
 const { verifyToken } = require("../services/oAuth");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(CLIENT_ID);
 
 const login = async (req, res) => {
   try {
-    const { email, userName } = req.body;
-
     const user = {
       userId: "1",
       email: email,
