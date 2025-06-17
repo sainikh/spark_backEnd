@@ -18,7 +18,7 @@ const verifyToken = async (tokenId) => {
 
     return user;
   } catch (e) {
-    console.error(e);
+    // console.error(e);
     return false;
   }
 };

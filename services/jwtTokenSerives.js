@@ -1,19 +1,37 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const generateToken = async (user) => {
-  const sanatisedUser = {
-    name: user.name,
-    email: user.email,
-  };
-  const access_token = jwt.sign(sanatisedUser, process.env.JWT_SECRET, {
-    expiresIn: "5m",
-  });
-
-  const refresh_token = jwt.sign(sanatisedUser, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
-  return { acessToken: access_token, refresh_token: refresh_token };
+const generateAccessToken = (payload) => {
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "5m" });
 };
 
-module.exports = { generateToken };
+const generateRefreshToken = (payload) => {
+  return jwt.sign(payload, process.env.JWT_REFRESH_SECRET, { expiresIn: "1d" });
+};
+
+const verifyAccessToken = (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET);
+};
+
+const verifyRefreshToken = (token) => {
+  return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+};
+
+const generateToken = (payload) => {
+  const user = {
+    email: payload.email,
+  };
+
+  return {
+    accessToken: generateAccessToken(user),
+    refreshToken: generateRefreshToken(user),
+  };
+};
+
+module.exports = {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyAccessToken,
+  verifyRefreshToken,
+  generateToken,
+};

@@ -22,4 +22,9 @@ const loginUser = async (email, name) => {
   }
 };
 
-module.exports = { loginUser };
+const getUser = async (email) => {
+  const user = await User.findOne(email);
+  return user;
+};
+
+module.exports = { loginUser, getUser };

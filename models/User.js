@@ -10,16 +10,39 @@ const userSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: true,
-    unique: true,
+    required: false,
+    unique: false,
     lowercase: true,
   },
-  isRegistered: {
-    type: Boolean,
+  age: {
+    type: String,
+    required: false,
+    default: null,
   },
-  currentRegStep: {
-    type: Number,
-    defulat: 0,
+  sex: {
+    type: String,
+    required: false,
+    default: null,
+  },
+  image1: {
+    type: String,
+    required: false,
+    default: null,
+  },
+  image2: {
+    type: String,
+    required: false,
+    default: null,
+  },
+  image3: {
+    type: String,
+    required: false,
+    default: null,
+  },
+  image4: {
+    type: String,
+    required: false,
+    default: null,
   },
 });
 
