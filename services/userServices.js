@@ -27,4 +27,4 @@ const getUser = async (email) => {
   return user;
 };
 
-module.exports = { loginUser, getUser };
+module.exports = { loginUser, getUser, doesUserExists };
